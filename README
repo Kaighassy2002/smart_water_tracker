@@ -1,0 +1,56 @@
+
+
+-----------------------------------------------------------------Smart Water Usage Tracker---------------------------------------------------------------------------------------
+
+ ### Over view
+-------------
+
+A MERN Stack project to help users track their water usage efficiently. The application visualizes real-time water consumption data, provides analytics, and offers eco-friendly tips for optimal water usage
+
+
+  ### Features
+ -------------
+
+ . User Authentication: OTP-based login for secure access.
+ . Real-Time Data Visualization: Interactive graphs that show weekly water usage.
+ . Weekly Usage Analytics: Visual representation of water consumption
+ . Mobile-Friendly: Designed for easy use on smartphones and tablets.
+
+
+    Technologies Used
+  ---------------------
+
+ ### Frontend
+  ----------
+- React.js
+- React Context (state Management) 
+- Recharts (for data visualization)
+- React Bootstrap
+
+
+
+### Backend
+----------------
+- Node.js
+- Express.js
+- MongoDB
+- JWT
+- Nodemailer
+
+### Other Tools
+-------------------
+- Socekt.IO
+- Toastify
+- env file for environment variables
+
+
+### Prerequisites:
+---------------------
+- Node.js (v14+)
+- MongoDB ( cloud)
+- Nodemailer account (for OTP functionality)
+
+
+
+frontent - water-cilent
+backend - water-server

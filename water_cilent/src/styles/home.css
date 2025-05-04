@@ -1,0 +1,32 @@
+
+.homepage-bg {
+    background: linear-gradient(#3c6e71aa, #284b63aa),
+                url('https://giffiles.alphacoders.com/151/151164.gif') no-repeat center center/cover;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  
+  .glass-box {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  
+  .vertical-line {
+    height: 80vh;
+    width: 4px;
+    background-color: #ffffff70;
+    border-radius: 2px;
+  }
+  
+  .animated-drop {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+  }
+  
