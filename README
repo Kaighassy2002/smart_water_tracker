@@ -15,6 +15,7 @@ A MERN Stack project to help users track their water usage efficiently. The appl
  . Real-Time Data Visualization: Interactive graphs that show weekly water usage.
  . Weekly Usage Analytics: Visual representation of water consumption
  . Mobile-Friendly: Designed for easy use on smartphones and tablets.
+ . Interactive Flowchart Editor  Users can visualize and simulate their water usage plan.
 
 
     Technologies Used
@@ -42,6 +43,7 @@ A MERN Stack project to help users track their water usage efficiently. The appl
 - Socekt.IO
 - Toastify
 - env file for environment variables
+- Postman for Testing Api 
 
 
 ### Prerequisites:
