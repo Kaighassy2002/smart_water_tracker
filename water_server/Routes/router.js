@@ -16,7 +16,7 @@ router.post('/login/verify-otplogin', userController.verifyOtpAndLogin);
 router.get('/sensor-data', sensorController.getSensorData);
 router.get('/sensor-data/history', sensorController.getAllSensorData);
 
-// ✅ Water Usage - Daily Usage Fetch (with simulation)
-router.get('/water-usage/daily', waterUsageController.getDailyWaterUsage);
+// Water Usage - Daily Usage Fetch (with simulation)
+router.get('/sensor-data/weekly-usage', waterUsageController.getWeeklyWaterUsage);
 
 module.exports = router;

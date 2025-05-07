@@ -5,44 +5,44 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   // Initialize state for token
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [token, setToken] = useState(sessionStorage.getItem("token") || "");
 
   const [user, setUser] = useState(() => {
-    const userData = localStorage.getItem("user");
+    const userData = sessionStorage.getItem("user");
     
     // Ensure the userData is not 'undefined' or invalid JSON
     if (userData && userData !== "undefined") {
       try {
         return JSON.parse(userData); // Parse if it's valid
       } catch (error) {
-        console.error("Error parsing user data from localStorage:", error);
+        console.error("Error parsing user data from sessionStorage:", error);
         return null; // Fallback to null if parsing fails
       }
     }
     return null; // If 'user' is 'undefined' or not set, fallback to null
   });
 
-  // Effect to update localStorage whenever user data changes
+  // Effect to update sessionStorage whenever user data changes
   useEffect(() => {
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user)); // Store valid user data
+      sessionStorage.setItem("user", JSON.stringify(user)); // Store valid user data
     }
   }, [user]);
 
-  // Login function to store token and user in state and localStorage
+  // Login function to store token and user in state and sessionStorage
   const login = (jwtToken, userData) => {
     setToken(jwtToken);
     setUser(userData);
-    localStorage.setItem("token", jwtToken);
-    localStorage.setItem("user", JSON.stringify(userData)); // Store user info
+    sessionStorage.setItem("token", jwtToken);
+    sessionStorage.setItem("user", JSON.stringify(userData)); // Store user info
   };
 
-  // Logout function to clear token and user from state and localStorage
+  // Logout function to clear token and user from state and sessionStorage
   const logout = () => {
     setToken("");
     setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
   };
 
   // Return the context provider with necessary values

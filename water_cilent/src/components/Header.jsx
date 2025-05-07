@@ -5,7 +5,9 @@ Link
 function Header() {
   const [displayName,setdisplay] = useState("")
   const [loginStatus,setLoginStatus] = useState(false)
+
  useEffect(()=>{
+  
   if(sessionStorage.getItem("token")) {
     setLoginStatus(true)
   }else{
@@ -13,14 +15,15 @@ function Header() {
   }
  },[])
 
- useEffect(()=>{
-  if (sessionStorage.getItem("exisitingUser")) {
-    const {username} = JSON.parse(sessionStorage.getItem("exisitingUser"))
-    setdisplay(username)
-  }else{
-    setdisplay("")
-  }
-  },[])
+  useEffect(() => {
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      if (parsedUser && parsedUser.name) {
+        setdisplay(parsedUser.name); 
+      }
+    }
+  }, []);
   return (
     <>
        <div className="">

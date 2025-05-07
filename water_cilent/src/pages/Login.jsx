@@ -15,6 +15,7 @@ const Login = () => {
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  
 
   const handleSendOtp = async () => {
     setError('');
@@ -50,8 +51,12 @@ const Login = () => {
     try {
       setIsVerifyingOtp(true);
       const res = await verifyOtpLogin(email, otp);
-      if (res.data.token) {
-        login(res.data.token);  
+      
+      if (res.data.token && res.data.user) {
+        console.log(res.data);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
+        login(res.data.token, res.data.user);  
         toast.info('Login successful!');
         setTimeout(() => {
           navigate('/dashboard');

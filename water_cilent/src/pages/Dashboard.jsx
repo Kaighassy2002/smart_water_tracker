@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button, ButtonGroup } from "react-bootstrap";
-import axios from "axios";
+
 import Header from "../components/Header";
 
-import FlowChart from "./FlowChart"; // Import FlowChart component
-import SensorChart from "./SensorChart"; // Import SensorChart for live data
-import Chart from "./Charts"; // Import Chart for weekly data
+import FlowChart from "./FlowChart"; 
+import SensorChart from "./SensorChart"; 
+import Chart from "./Charts"; 
+import { fetchSensorData } from "../services/allApi";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const userName = sessionStorage.getItem("name") || "User";
+  const user = JSON.parse(sessionStorage.getItem("user"));
+const userName = user?.name || "User";
   const [simulationStatus, setSimulationStatus] = useState(false);
   const [sensorData, setSensorData] = useState(null);
   const [activeComponent, setActiveComponent] = useState("sensor");
+  console.log(userName)
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -24,7 +27,7 @@ const Dashboard = () => {
     try {
       if (!simulationStatus) {
         // Start simulation
-        const response = await axios.get("http://localhost:5000/api/sensor-data"); // Update the endpoint as needed
+        const response = await fetchSensorData(); 
         setSensorData(response.data);
         setSimulationStatus(true);
       } else {

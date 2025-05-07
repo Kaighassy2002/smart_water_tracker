@@ -24,8 +24,13 @@ export const sendOtpLogin = async (email) => {
  
   export const fetchSensorData = async () => {
     return await commonAPI("GET", `${SERVER_URL}/sensor-data`);
+    
   };
+  // ✅ Sensor history data (latest 20 entries or use query param)
+export const fetchSensorHistory = async (limit = 20) => {
+  return await commonAPI("GET", `${SERVER_URL}/sensor-data/history?limit=${limit}`);
+};
 
   export const weekilyWaterData = async () => {
-    return await commonAPI("GET", `${SERVER_URL}/water-usage/daily`);
+    return await commonAPI("GET", `${SERVER_URL}/sensor-data/weekly-usage`);
   };

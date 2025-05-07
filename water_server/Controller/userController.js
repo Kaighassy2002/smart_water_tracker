@@ -1,5 +1,5 @@
-const User = require("../Models/userModel"); // your User model
-const Otp = require("../Models/otp");   // temporary OTP model
+const User = require("../Models/userModel"); 
+const Otp = require("../Models/otp");   
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
@@ -21,8 +21,8 @@ exports.generateOtpAndSend = async (req, res) => {
   try {
     // Check if already registered
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "User already exists" });
-
+    if (existingUser){ return res.status(400).json({ message: "User already exists" });
+  }
     // Generate OTP
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
