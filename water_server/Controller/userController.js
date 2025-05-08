@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
   
 });
 
+
 // STEP 1: Generate and send OTP
 exports.generateOtpAndSend = async (req, res) => {
   const { name, email, phone } = req.body;

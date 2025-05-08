@@ -1,44 +1,116 @@
-import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import React, { useCallback } from "react";
+import ReactFlow, {
+  MiniMap,
+  Controls,
+  Background,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+} from "reactflow";
+import "reactflow/dist/style.css";
+import EditableNode from "../components/EditableNode"; // Import custom editable node
+import { v4 as uuidv4 } from "uuid";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
-import { Card, Container } from "react-bootstrap";
-import { weekilyWaterData } from "../services/allApi";
+// Define custom node types
+const nodeTypes = {
+  editable: EditableNode,
+};
 
-const WeeklyUsageChart = () => {
-  const [weeklyData, setWeeklyData] = useState([]);
+// Initial editable Start Node
+const initialNodes = [
+  {
+    id: "1",
+    type: "editable",
+    position: { x: 100, y: 100 },
+    data: {
+      label: "Start Node",
+      updateLabel: () => {}, // placeholder, will be updated below
+    },
+  },
+];
 
-  useEffect(() => {
-    const loadUsage = async () => {
-      try {
-        const res = await weekilyWaterData();
-        setWeeklyData(res.data.map(item => ({
-          date: item._id,
-          usage: item.totalUsage.toFixed(2)
-        })));
-      } catch (err) {
-        console.error("Failed to fetch weekly usage:", err);
-      }
+const Flowchart = () => {
+  // Function to update node label
+  const updateNodeLabel = (id, newLabel) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === id
+          ? {
+              ...node,
+              data: {
+                ...node.data,
+                label: newLabel,
+                updateLabel: (label) => updateNodeLabel(id, label),
+              },
+            }
+          : node
+      )
+    );
+  };
+
+  // Replace placeholder updateLabel with actual function on init
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    initialNodes.map((node) => ({
+      ...node,
+      data: {
+        ...node.data,
+        updateLabel: (label) => updateNodeLabel(node.id, label),
+      },
+    }))
+  );
+
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
+
+  const addNode = () => {
+    const id = uuidv4();
+    const newNode = {
+      id,
+      type: "editable",
+      position: {
+        x: Math.random() * 400,
+        y: Math.random() * 400,
+      },
+      data: {
+        label: `Node ${nodes.length + 1}`,
+        updateLabel: (label) => updateNodeLabel(id, label),
+      },
     };
-
-    loadUsage();
-  }, []);
+    setNodes((nds) => [...nds, newNode]);
+  };
 
   return (
-    <Container className="my-4">
-      <Card className="p-3 shadow-sm rounded-4">
-        <h4 className="text-center mb-3">Weekly Water Usage</h4>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={weeklyData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="usage" fill="#3C6E71" />
-          </BarChart>
-        </ResponsiveContainer>
-      </Card>
+    <Container className="py-4">
+      <Row className="mb-3">
+        <Col className="d-flex justify-content-between align-items-center">
+          <h3>Flowchart Editor</h3>
+          <Button onClick={addNode} variant="primary">
+            Add Node
+          </Button>
+        </Col>
+      </Row>
+      <div style={{ height: "70vh", border: "1px solid #ddd" }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          fitView
+        >
+          <MiniMap />
+          <Controls />
+          <Background gap={16} />
+        </ReactFlow>
+      </div>
     </Container>
   );
 };
 
-export default WeeklyUsageChart;
+export default Flowchart;
